@@ -3,17 +3,29 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 
+//FOR BODY PARSER
+app.use(express.json());
+
+//Expiration Time of Token
 const expireSession = "30s";
 
+//ADD SECRET KEY OF USER
+const secret = "MySecret";
+
+//Test API
 app.get("/api", (req, res) => {
   res.json({
     message: "Welcome to the API"
   });
 });
 
+//API FOR VERIFY THE USER
+
 app.post("/api", verifyToken, (req, res) => {
-  jwt.verify(req.token, "MySecret", (err, data) => {
+  //VERIFY THE TOKEN
+  jwt.verify(req.token, secret, (err, data) => {
     if (err) {
+      //FORBIDDEN
       res.sendStatus(403);
     } else {
       res.json({
@@ -24,6 +36,7 @@ app.post("/api", verifyToken, (req, res) => {
   });
 });
 
+//FUNCTON TO ACCESS TOKEN
 function verifyToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
 
@@ -34,19 +47,24 @@ function verifyToken(req, res, next) {
 
     next();
   } else {
+    //IF TOKEN IS NOT AVAILABLE IN HEADERS SEND FORBIDDEN
     res.sendStatus(403);
   }
 }
 
+//API TO GENERATE THE TOKEN USING THE USER DATA
 app.post("/api/login", (req, res) => {
-  //Dummy user
   const user = {
-    id: 1,
-    username: "Hardik",
-    email: "hardik@gmail.com"
+    id: req.body.phone,
+    username: req.body.user,
+    email: req.body.email
   };
-  jwt.sign({ user }, "MySecret", { expiresIn: expireSession }, (err, token) => {
+
+  //GENERATE THE TOKEN USING THE SECERET
+  //ASSIGN TIME FOR EXPIRATION OF THE TOKEN
+  jwt.sign({ user }, secret, { expiresIn: expireSession }, (err, token) => {
     if (!err) {
+      //SEND TOKEN TO THE USER
       res.json({
         token
       });
