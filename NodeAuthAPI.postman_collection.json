@@ -1,0 +1,59 @@
+{
+	"variables": [],
+	"info": {
+		"name": "NodeAuthAPI",
+		"_postman_id": "26cd90c0-490f-06d5-01bb-1a1ea4ba0271",
+		"description": "JsonWebToken for Authorization  ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:5000/api/",
+			"request": {
+				"url": "localhost:5000/api/",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": "GET API"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:5000/api/login",
+			"request": {
+				"url": "localhost:5000/api/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"phone\":\"9685741236\",\n \"user\":\"Hardik\",\n \"email\":\"hardik@gmail.com\"\n}"
+				},
+				"description": "POST request to generate the token"
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:5000/api/",
+			"request": {
+				"url": "localhost:5000/api/",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiOTY4NTc0MTIzNiIsInVzZXJuYW1lIjoiSGFyZGlrIiwiZW1haWwiOiJoYXJkaWtAZ21haWwuY29tIn0sImlhdCI6MTU1Njg5NjMwMywiZXhwIjoxNTU2ODk4MTAzfQ.Z8134kxODA-BPlZ_tUHlGJMwDgF7YeK7-nlVUPPZ1b0",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "POST REQUEST TO VERIFY THE USER BY PASSING THE TOKEN IN HEADERS AUTHORIZATION"
+			},
+			"response": []
+		}
+	]
+}
