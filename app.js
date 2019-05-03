@@ -7,10 +7,10 @@ const app = express();
 app.use(express.json());
 
 //Expiration Time of Token
-const expireSession = "30s";
+const expireSession = "30m";
 
 //ADD SECRET KEY OF USER
-const secret = "MySecret";
+secret = "MySecret";
 
 //Test API
 app.get("/api", (req, res) => {
