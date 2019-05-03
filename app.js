@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 
 const app = express();
 
+const expireSession = "30s";
+
 app.get("/api", (req, res) => {
   res.json({
     message: "Welcome to the API"
@@ -24,13 +26,11 @@ app.post("/api", verifyToken, (req, res) => {
 
 function verifyToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
-  console.log(bearerHeader);
 
   if (typeof bearerHeader !== "undefined") {
     const bearer = bearerHeader.split(" ");
     bearerToken = bearer[1];
     req.token = bearerToken;
-    console.log(req.token);
 
     next();
   } else {
@@ -39,12 +39,13 @@ function verifyToken(req, res, next) {
 }
 
 app.post("/api/login", (req, res) => {
+  //Dummy user
   const user = {
     id: 1,
     username: "Hardik",
     email: "hardik@gmail.com"
   };
-  jwt.sign({ user }, "MySecret", (err, token) => {
+  jwt.sign({ user }, "MySecret", { expiresIn: expireSession }, (err, token) => {
     if (!err) {
       res.json({
         token
