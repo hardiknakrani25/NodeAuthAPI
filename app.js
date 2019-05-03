@@ -9,11 +9,23 @@ app.get("/api", (req, res) => {
   });
 });
 
-app.post("/api", (req, res) => {
+app.post("/api", verifyToken, (req, res) => {
   res.json({
     message: "Post is Created . . . "
   });
 });
+
+function verifyToken(req, res, next) {
+  const bearerHeader = req.headers["authorization"];
+  if (typeof bearerHeader !== "undefined") {
+    const bearer = bearerHeader.split(" ");
+    req.token = bearer[1];
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+}
+
 app.post("/api/login", (req, res) => {
   const user = {
     id: 1,
