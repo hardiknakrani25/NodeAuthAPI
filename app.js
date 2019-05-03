@@ -10,16 +10,28 @@ app.get("/api", (req, res) => {
 });
 
 app.post("/api", verifyToken, (req, res) => {
-  res.json({
-    message: "Post is Created . . . "
+  jwt.verify(req.token, "MySecret", (err, data) => {
+    if (err) {
+      res.sendStatus(403);
+    } else {
+      res.json({
+        message: "Post is Created . . . ",
+        data
+      });
+    }
   });
 });
 
 function verifyToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
+  console.log(bearerHeader);
+
   if (typeof bearerHeader !== "undefined") {
     const bearer = bearerHeader.split(" ");
-    req.token = bearer[1];
+    bearerToken = bearer[1];
+    req.token = bearerToken;
+    console.log(req.token);
+
     next();
   } else {
     res.sendStatus(403);
